@@ -1,0 +1,1 @@
+# Boilerplate de um microservico de criação/autenticação de usuário
