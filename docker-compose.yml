@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: zaliha
+      MYSQL_USER: zaliha
+      MYSQL_PASSWORD: zaliha
+      MYSQL_ROOT_PASSWORD: zaliha
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  api:
+    build: .
+    environment:
+      PORT: 3334
+      SECRET_JWT: d36c6bab8bbc90b72ab1e01f0669aa28
+      EMAIL_USER: tzoppeim@live.com
+      EMAIL_PASSWORD: Lu@010708
+      DATABASE_URL: mysql://zaliha:zaliha@db:3306/zaliha?schema=public
+    labels:
+      #- traefik.enable=true
+      #- traefik.http.routers.api.rule=Host(`rezis-api.4dmensao.com`)
+      #- traefik.http.routers.api.entrypoints=websecure
+      #- traefik.http.routers.api.tls=true
+      #- traefik.http.routers.api.tls.certresolver=leresolver
+      #- traefik.http.middlewares.api-secure.headers.SSLRedirect=true
+      #- traefik.http.middlewares.api-secure.headers.STSSeconds=315360000
+      #- traefik.http.middlewares.api-secure.headers.browserXSSFilter=true
+      #- traefik.http.middlewares.api-secure.headers.contentTypeNosniff=true
+      #- traefik.http.middlewares.api-secure.headers.forceSTSHeader=true
+      #- traefik.http.middlewares.api-secure.headers.SSLHost=rezis-api.4dmensao.com
+      #- traefik.http.middlewares.api-secure.headers.STSIncludeSubdomains=true
+      #- traefik.http.middlewares.api-secure.headers.STSPreload=true
+      #- traefik.http.routers.api.middlewares=api-secure@docker
+    depends_on:
+      - db
+    expose:
+      - "3334"
+
+volumes:
+  mysql_data:
